@@ -17,15 +17,6 @@ namespace AuthenService.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.HasIndex(e => e.Email).IsUnique();
-                entity.HasIndex(e => e.Username).IsUnique();
-                entity.Property(e => e.Email).IsRequired();
-                entity.Property(e => e.Username).IsRequired();
-                entity.Property(e => e.PasswordHash).IsRequired();
-            });
         }
     }
 }
