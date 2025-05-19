@@ -50,6 +50,15 @@ The service uses the following configuration settings:
    ```
 
 ## API Endpoints
+## Default Login Credentials (After Database Seeding)
+
+After the database is seeded with initial data, you can use the following default credentials to log in:
+
+- Email: TestUser@Test.com
+- Username: Testuser
+- Password: micr0s0ft_
+
+This user is assigned the "User" role and can be used to test the authentication system.
 
 ### Authentication
 
