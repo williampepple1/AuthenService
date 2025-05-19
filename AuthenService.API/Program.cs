@@ -1,3 +1,4 @@
+using AuthenService.API.Configurations;
 using AuthenService.Application.Interfaces;
 using AuthenService.Application.Services;
 using AuthenService.Application.Utils;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Templates;
 using Serilog.Templates.Themes;
@@ -102,7 +104,43 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "AuthenService",
+        Version = "v1",
+        Contact = new OpenApiContact
+        {
+            Name = "William Pepple",
+            Email = "williampepple1@gmail.com"
+        }
+    });
 
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+  
+});
 
 var app = builder.Build();
 
@@ -120,4 +158,6 @@ app.UseSerilogRequestLogging();
 
 app.MapControllers();
 
-app.Run();
+await app.SeedRecordsToDatabase();
+
+await app.RunAsync();

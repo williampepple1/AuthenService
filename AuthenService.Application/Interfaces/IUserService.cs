@@ -10,6 +10,7 @@ namespace AuthenService.Application.Interfaces
     public interface IUserService
     {
         Task<bool> RegisterAsync(RegisterUserDto registerDto);
-
+        Task<List<UserDto>> GetAllUsers();
+        Task<UserDto> GetUserByIdAsync(long userId);
     }
 }

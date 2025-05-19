@@ -17,14 +17,18 @@ namespace AuthenService.API.Controllers
             _userService = userService;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost("register")]
         public async Task<ActionResult<AuthResponseDto>> Register(RegisterUserDto registerDto)
         {
             try
             {
                 var response = await _userService.RegisterAsync(registerDto);
-                return Ok(response);
+                if (!response)
+                {
+                    return BadRequest(new { message = "User registration failed" });
+                }
+                return Ok("User Created Successfully");
             }
             catch (System.Exception ex)
             {
@@ -32,6 +36,38 @@ namespace AuthenService.API.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<UserDto>> GetUserById(long userId)
+        {
+            try
+            {
+                var user = await _userService.GetUserByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+                return Ok(user);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
 
+        [Authorize]
+        [HttpGet("all")]
+        public async Task<ActionResult<List<UserDto>>> GetAllUsers()
+        {
+            try
+            {
+                var users = await _userService.GetAllUsers();
+                return Ok(users);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

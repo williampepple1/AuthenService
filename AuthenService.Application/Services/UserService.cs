@@ -55,6 +55,38 @@ namespace AuthenService.Application.Services
            
             return true;
         }
+
+        public async Task<UserDto> GetUserByIdAsync(long userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            return new UserDto
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt
+            };
+        }
+
+        public async Task<List<UserDto>> GetAllUsers()
+        {
+            var users = _userManager.Users.ToList();
+            if (users == null || users.Count == 0)
+            {
+                throw new Exception("No users found");
+            }
+            return [.. users.Select(user => new UserDto
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt
+            })];
+        }
     }
 
 }
