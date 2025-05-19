@@ -18,9 +18,10 @@ namespace AuthenService.Application.DTOs
 
     public class RegisterUserDto
     {
-        [Required(ErrorMessage = "Please Provide Email"), RegularExpression(RegexConstants.EmailRegex, ErrorMessage = "Please Provide A Valid Email Address.")]
-        [StringLength(100, ErrorMessage = "Email Cannot Be More Than Length Of 100")]
         public string Username { get; set; }
+
+        //[Required(ErrorMessage = "Please Provide Email"), RegularExpression(RegexConstants.EmailRegex, ErrorMessage = "Please Provide A Valid Email Address.")]
+        [StringLength(100, ErrorMessage = "Email Cannot Be More Than Length Of 100")]
         public string Email { get; set; }
         public string Password { get; set; }
     }

@@ -51,14 +51,14 @@ namespace AuthenService.Application.Services
             await _userManager.UpdateAsync(user);
 
             var token = GenerateJwtToken(user, "User");
-            _logger.LogInformation("User {Username} logged in successfully", user.Username);
+            _logger.LogInformation("User {Username} logged in successfully", user.UserName);
             return new AuthResponseDto
             {
                 Token = token,
                 User = new UserDto
                 {
                     Id = user.Id,
-                    Username = user.Username,
+                    Username = user.UserName,
                     Email = user.Email,
                     CreatedAt = user.CreatedAt
                 }
@@ -75,7 +75,7 @@ namespace AuthenService.Application.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, role)
             };
 

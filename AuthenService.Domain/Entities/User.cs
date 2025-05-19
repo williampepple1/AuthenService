@@ -5,7 +5,6 @@ namespace AuthenService.Domain.Entities
     public class User: IdentityUser<long>
 
     {
-        public string Username { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
     }

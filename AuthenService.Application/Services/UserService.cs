@@ -37,7 +37,7 @@ namespace AuthenService.Application.Services
             {
                
                 Email = registerDto.Email,
-                Username = registerDto.Username,
+                UserName = registerDto.Username,
                 CreatedAt = DateTime.UtcNow,
                 EmailConfirmed = true
        
